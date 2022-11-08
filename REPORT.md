@@ -7,6 +7,21 @@
 
 ## Code
 
+### connect4.py
+```commandline
+
+```
+
+### minimax.py
+```commandline
+
+```
+
+### play.py
+```commandline
+
+```
+
 ## Analysis
 
 ## Works Cited

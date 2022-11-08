@@ -14,7 +14,7 @@ class Minimax(object):
     """
 
     board = None
-    colors = ["x", "o"]
+    pieces = ["x", "o"]
 
     def __init__(self, board):
         # copy the board to self.board
@@ -26,10 +26,10 @@ class Minimax(object):
         """
 
         # determine opponent's color
-        if curr_player == self.colors[0]:
-            opp_player = self.colors[1]
+        if curr_player == self.pieces[0]:
+            opp_player = self.pieces[1]
         else:
-            opp_player = self.colors[0]
+            opp_player = self.pieces[0]
 
         # enumerate all legal moves
         legal_moves = {}  # will map legal move states to their alpha values
@@ -74,10 +74,10 @@ class Minimax(object):
             return self.value(state, curr_player)
 
         # determine opponent's color
-        if curr_player == self.colors[0]:
-            opp_player = self.colors[1]
+        if curr_player == self.pieces[0]:
+            opp_player = self.pieces[1]
         else:
-            opp_player = self.colors[0]
+            opp_player = self.pieces[0]
 
         alpha = -99999999
         for child in legal_moves:
@@ -99,9 +99,9 @@ class Minimax(object):
         return False
 
     def gameIsOver(self, state):
-        if self.checkForStreak(state, self.colors[0], 4) >= 1:
+        if self.checkForStreak(state, self.pieces[0], 4) >= 1:
             return True
-        elif self.checkForStreak(state, self.colors[1], 4) >= 1:
+        elif self.checkForStreak(state, self.pieces[1], 4) >= 1:
             return True
         else:
             return False
@@ -125,10 +125,10 @@ class Minimax(object):
             (num of 2-in-a-rows)*10 - (num of opponent 4-in-a-rows)*99999 - (num of opponent
             3-in-a-rows)*100 - (num of opponent 2-in-a-rows)*10
         """
-        if color == self.colors[0]:
-            o_color = self.colors[1]
+        if color == self.pieces[0]:
+            o_color = self.pieces[1]
         else:
-            o_color = self.colors[0]
+            o_color = self.pieces[0]
 
         my_fours = self.checkForStreak(state, color, 4)
         my_threes = self.checkForStreak(state, color, 3)

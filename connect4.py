@@ -7,6 +7,7 @@
 # Connect 4 Module
 # February 27, 2012
 # Accessed and revised by Peter Mavronicolas Nov. 8,2022
+
 import random
 import os
 import time
@@ -31,36 +32,28 @@ class Game(object):
         self.finished = False
         self.winner = None
 
+
         # do cross-platform clear screen
         os.system(['clear', 'cls'][os.name == 'nt'])
         print(u"Welcome to {0}!".format(self.game_name))
-        print("Should Player 1 be a Human or a Computer?")
-        #override choice and default to Computer, C.
-        self.players[0] = 'C'
-        self.players[1] = 'C'
 
+        #default to computer and name as bot1
         while self.players[0] == None:
-            choice = str(input("Type 'H' or 'C': "))
-            if choice == "Human" or choice.lower() == "h":
-                name = str(input("What is Player 1's name? "))
-                self.players[0] = Player(name, self.colors[0])
-            elif choice == "Computer" or choice.lower() == "c":
-                name = str(input("What is Player 1's name? "))
-                diff = int(input("Enter difficulty for this AI (1 - 4) "))
+            choice = str("C")
+            if choice == "Computer" or choice.lower() == "c":
+                name = str("Bot1")
+                diff = int(input("Enter difficulty for Bot1 (1 - 4) "))
                 self.players[0] = AIPlayer(name, self.colors[0], diff + 1)
             else:
                 print("Invalid choice, please try again")
         print("{0} will be {1}".format(self.players[0].name, self.colors[0]))
 
-        print("Should Player 2 be a Human or a Computer?")
+        #default to computer and name as bot2
         while self.players[1] == None:
-            choice = str(input("Type 'H' or 'C': "))
-            if choice == "Human" or choice.lower() == "h":
-                name = str(input("What is Player 2's name? "))
-                self.players[1] = Player(name, self.colors[1])
-            elif choice == "Computer" or choice.lower() == "c":
-                name = str(input("What is Player 2's name? "))
-                diff = int(input("Enter difficulty for this AI (1 - 4) "))
+            choice = str("C")
+            if choice == "Computer" or choice.lower() == "c":
+                name = str("Bot2")
+                diff = int(input("Enter difficulty for Bot2 (1 - 4) "))
                 self.players[1] = AIPlayer(name, self.colors[1], diff + 1)
             else:
                 print("Invalid choice, please try again")
