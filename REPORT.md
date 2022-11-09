@@ -784,13 +784,13 @@ Round: 43
           1   2   3   4   5   6   7 
 
 ## Analysis
-Through random minimax testing, I expected that an difficulty of equal value would generate an even amount of wins ofr each bot. 
-This occurred between a range of 3 to 7 for either bot. I also expected an unequal difficulty to favor the bot with the lower difficulty.
-This was not the case when testing 2 and 1, 2 and 3, 3 and 2, 4 and 3. The offset in difficult in these tests seemed to mimic random minimax results.
+Through random minimax testing, I expected that a difficulty of equal values would generate an even amount of wins for each bot. 
+This occurred between a range of 3 to 7 wins for either bot. I also expected an unequal difficulty to favor the bot with the lower difficulty.
+This was not the case when testing '2 and 1', '2 and 3', '3 and 2', '4 and 3'. The offset of difficulty in these tests seemed to mimic random minimax results.
 
-When testing with alpha beta algorithm where difficulty is equal, bot2 was unanimously the winner except for when the difficulty was when in which bot 1 was the unanimous winner.
-This could simply be due to the winner being the bot that went first. With unequal difficulty levels, I would again expect the bot with the lower difficulty to win. This was not the 
-case with '2 and 3' where bot 2 was the unanimous winner. In '2 and 1', '4 and 3' the offset in difficulty resulted in a tie which leads me to find the alpha beta algorithm can be neutralized by a slight offset of difficulty.
+When testing with alpha beta algorithm where difficulty is equal, bot2 was unanimously the winner except for when the difficulty was '1 and 1' in which bot 1 was the unanimous winner.
+This could simply be due to the winner being the bot that played first. With unequal difficulty levels, I would again expect the bot with the lower difficulty to win. This was not the 
+case with '2 and 3' where bot 2 was the unanimous winner. In '2 and 1', '4 and 3' the offset in difficulty resulted in a tie which leads me to conclude the alpha beta algorithm can be neutralized with a slight offset of difficulty.
 
 ## Works Cited
 
