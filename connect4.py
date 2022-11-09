@@ -8,23 +8,24 @@
 # February 27, 2012
 # Accessed and revised by Peter Mavronicolas Nov. 8,2022
 
-import random
+
 import os
-import time
 from minimax import Minimax
+import random
+import time
 
 
 class Game(object):
     """ Game object that holds state of Connect 4 board and game values
     """
-
+    # initialize variables
     board = None
     round = None
     finished = None
     winner = None
     turn = None
     players = [None, None]
-    game_name = u"Connecter Quatre\u2122"  # U+2122 is "tm" this is a joke
+    game_name = u"Connecter Four in AI"  # U+2122 is "tm" this is a joke
     colors = ["x", "o"]
 
     def __init__(self):
@@ -61,13 +62,13 @@ class Game(object):
 
         # x always goes first (arbitrary choice on my part)
         self.turn = self.players[0]
-
+        # initialize array and nested for loop through entire board
         self.board = []
         for i in range(6):
             self.board.append([])
             for j in range(7):
                 self.board[i].append(' ')
-
+    # initialize new game
     def newGame(self):
         """ Function to reset the game, but not the names or colors
         """
@@ -83,7 +84,7 @@ class Game(object):
             self.board.append([])
             for j in range(7):
                 self.board[i].append(' ')
-
+    # function to change turns
     def switchTurn(self):
         if self.turn == self.players[0]:
             self.turn = self.players[1]
@@ -96,7 +97,7 @@ class Game(object):
     def nextMove(self):
         player = self.turn
 
-        # there are only 42 legal places for pieces on the board
+        # 7 x 6 = 42 legal places for pieces on the board
         # exactly one piece is added to the board each turn
         if self.round > 42:
             self.finished = True
@@ -105,7 +106,7 @@ class Game(object):
 
         # move is the column that player want's to play
         move = player.move(self.board)
-
+        # loop to call several functions determining placement of game piece
         for i in range(6):
             if self.board[i][move] == ' ':
                 self.board[i][move] = player.color
@@ -117,9 +118,9 @@ class Game(object):
         # if we get here, then the column is full
         print("Invalid move (column is full)")
         return
-
+    # function to specifically check for a streak of four
     def checkForFours(self):
-        # for each piece in the board...
+        # nested for loop iterating through entire board both vert. and horiz.
         for i in range(6):
             for j in range(7):
                 if self.board[i][j] != ' ':
@@ -140,7 +141,7 @@ class Game(object):
                         print(slope)
                         self.finished = True
                         return
-
+    # function to iterate vertically through board
     def verticalCheck(self, row, col):
         # print("checking vert")
         fourInARow = False
@@ -151,7 +152,7 @@ class Game(object):
                 consecutiveCount += 1
             else:
                 break
-
+        # conditional statement checking for 4 win streak or connect four
         if consecutiveCount >= 4:
             fourInARow = True
             if self.players[0].color.lower() == self.board[row][col].lower():
@@ -161,6 +162,7 @@ class Game(object):
 
         return fourInARow
 
+    # function to iterate horizontally through board
     def horizontalCheck(self, row, col):
         fourInARow = False
         consecutiveCount = 0
@@ -179,7 +181,7 @@ class Game(object):
                 self.winner = self.players[1]
 
         return fourInARow
-
+    # function to check for diagonal connect four
     def diagonalCheck(self, row, col):
         fourInARow = False
         count = 0
@@ -196,7 +198,7 @@ class Game(object):
             else:
                 break
             j += 1  # increment column when row is incremented
-
+        # conditional statements for positive slope check
         if consecutiveCount >= 4:
             count += 1
             slope = 'positive'
@@ -205,7 +207,7 @@ class Game(object):
             else:
                 self.winner = self.players[1]
 
-        # check for diagonals with negative slope
+        # check for diagonals with negative slope begining off the board
         consecutiveCount = 0
         j = col
         for i in range(row, -1, -1):
@@ -230,12 +232,9 @@ class Game(object):
         if count == 2:
             slope = 'both'
         return fourInARow, slope
-
+    # function to search for beginning of connect four
     def findFours(self):
-        """ Finds start i,j of four-in-a-row
-            Calls highlightFours
-        """
-
+        # nested loop to iterate through board checking for pieces already placed
         for i in range(6):
             for j in range(7):
                 if self.board[i][j] != ' ':
@@ -252,32 +251,29 @@ class Game(object):
                     diag_fours, slope = self.diagonalCheck(i, j)
                     if diag_fours:
                         self.highlightFour(i, j, 'diagonal', slope)
-
+    # function to chnage piece from lower to capital letters
     def highlightFour(self, row, col, direction, slope=None):
-        """ This function enunciates four-in-a-rows by capitalizing
-            the character for those pieces on the board
-        """
-
+        #conditional statements
         if direction == 'vertical':
             for i in range(4):
                 self.board[row + i][col] = self.board[row + i][col].upper()
-
+        #else if
         elif direction == 'horizontal':
             for i in range(4):
                 self.board[row][col + i] = self.board[row][col + i].upper()
-
+        #else if
         elif direction == 'diagonal':
             if slope == 'positive' or slope == 'both':
                 for i in range(4):
                     self.board[row + i][col + i] = self.board[row + i][col + i].upper()
-
+            # else if
             elif slope == 'negative' or slope == 'both':
                 for i in range(4):
                     self.board[row - i][col + i] = self.board[row - i][col + i].upper()
 
         else:
             print("Error - Cannot enunciate four-of-a-kind")
-
+    # function to build board
     def printState(self):
         # cross-platform clear screen
         os.system(['clear', 'cls'][os.name == 'nt'])
@@ -327,21 +323,18 @@ class Player(object):
                 print("Invalid choice, try again")
         return column
 
-
+# class for AI or computer player to make decisions
 class AIPlayer(Player):
-    """ AIPlayer object that extends Player
-        The AI algorithm is minimax, the difficulty parameter is the depth to which
-        the search tree is expanded.
-    """
 
     difficulty = None
-
+    # function to initialize variables
     def __init__(self, name, color, difficulty=5):
         self.type = "AI"
         self.name = name
         self.color = color
         self.difficulty = difficulty
 
+    # function to move player based on random function
     def move(self, state):
         print("{0}'s turn.  {0} is {1}".format(self.name, self.color))
 
